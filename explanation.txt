@@ -1,0 +1,18 @@
+// Here we start with building a project where we have multiple agent for coding
+// internet search ppt pdf maker as well as generalized tasks
+//So to start with this project we will first think about building backend
+//As there are multiple parts here for backend so we will use microservices
+//All backend services ->
+//1. Auth - 8001
+//2. Chat - 8002
+//3. Agent -8003
+//So here whenever we send reqest we don't know the perticular services so 
+//we will use Gateway to pass our request to a perticular services
+//Now we will have shared folder which can access everything
+
+//started with gateway server
+//installed services -> npm i express mongoose modemon dotenv morgan
+
+//then create basic express server gateway in gateway folder
+
+//then create mongodb connect and database in services(auth)
