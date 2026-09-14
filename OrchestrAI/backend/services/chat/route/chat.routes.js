@@ -1,5 +1,5 @@
 import express from "express"
-import { createConversation, getConversations, getMessages, saveMessage, updateConversation } from "../controllers/chat.controller"
+import { createConversation, getConversations, getMessages, saveMessage, updateConversation } from "../controllers/chat.controller.js"
 
 const router = express.Router()
 //here creating get route for create convo becuae we are getting id from headers simply no much of data is there

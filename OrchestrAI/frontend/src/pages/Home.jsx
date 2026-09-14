@@ -3,7 +3,7 @@ import React from "react";
 import { FcGoogle } from "react-icons/fc";
 
 import api from "../../utils/axios.js";
-import { auth, googleProvider } from "../../utils/firebase";
+import { auth, googleProvider } from "../../utils/firebase.js";
 import { useDispatch, useSelector } from 'react-redux'
 import { setUserdata } from "../redux/userSlice.js";
 import SideBar from "../components/SideBar.jsx";

@@ -2,7 +2,7 @@ import { signInWithPopup } from 'firebase/auth'
 import React from 'react'
 import api from "../utils/axios.js"
 import Home from './pages/Home.jsx'
-import {auth, googleProvider } from '../utils/firebase'
+import {auth, googleProvider } from '../utils/firebase.js'
 import { useEffect } from 'react'
 import getCurrentUser from './features/getCurrentUser.js'
 import { useDispatch } from 'react-redux'
