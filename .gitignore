@@ -92,3 +92,17 @@ env/
 
 *.swp
 *.swo
+auth_csr_vs_ssr.txt
+auth_explanation_csr.txt
+explanation.txt
+auth_firebase.txt
+redux_concept.txt
+microservices.png
+system_arch_diag.png
+redux_slices.png
+langgraph_workflow.png
+explanation.txt
+ui.png
+
+# Firebase
+serviceAccountKey.json
