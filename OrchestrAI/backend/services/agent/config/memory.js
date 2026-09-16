@@ -20,9 +20,9 @@ export const addMessage = async ({
     content
 }) => {
 
-    if (!conversationId || !role || !content) {
-        throw new Error("Invalid message data")
-    }
+    // if (!conversationId || !role || !content) {
+    //     throw new Error("Invalid message data")
+    // }
 
     const key = `messages-${conversationId}`
 
