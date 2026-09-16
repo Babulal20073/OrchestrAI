@@ -11,6 +11,12 @@ const routerSchema = z.object({
     ])
 })
 export const router = async(state)=>{
+    if(state.agent && state.agent!=="auto"){
+        return {
+            ...state,
+            agent:state.agent
+        }
+    }
     const llm =  await getModel("router")
     const structuredLlm = llm.withStructuredOutput(routerSchema)
 
@@ -65,7 +71,6 @@ export const router = async(state)=>{
 
     `
     const response=await structuredLlm.invoke(prompt)
-    console.log(response)
     return {
         ...state,
         agent:response.agent
