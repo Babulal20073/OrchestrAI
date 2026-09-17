@@ -3,17 +3,19 @@ import { getModel } from "../config/llmModels.js"
 import { getMemory } from "../config/memory.js"
 
 export const chatAgent = async (state)=>{
+    console.log("CHAT STATE:", state)
+    console.log("SEARCH RESULTS:", state.searchResults)     
     const llm = await getModel("chat")
     const history = await getMemory(state.conversationId)
     console.log(history)
-    const searchContext=state.searhResults?`
+    const searchContext=state.searchResults?`
     Web Search Results
     ${state.searchResults}
     Answer the user using only the above search results.`:""
 
     const systemPrompt = `
     You are contrexAI, an intelligent AI assistant
-    ${searchContext}
+        ${JSON.stringify(state.searchResults, null, 2)}
     If searchContext exists:
     - Use search results to answer.
     - Do not mention internal tools.
@@ -45,6 +47,14 @@ export const chatAgent = async (state)=>{
     messages.push(new HumanMessage(state.prompt))
     console.log(messages)
     const response = await llm.invoke(messages)
+    console.log("========== LLM RESPONSE ==========")
+    console.log(response.content)
+
+    console.log("========== LLM RESPONSE LENGTH ==========")
+    console.log(response.content?.length)
+
+    console.log("========== LLM RESPONSE METADATA ==========")
+    console.log(response.response_metadata)
     return {
         ...state,
         aiResponse:response.content

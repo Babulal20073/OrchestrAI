@@ -21,7 +21,7 @@ const gemini = new ChatGoogleGenerativeAI({
 export const getModel = async (agent)=>{
     switch (agent) {
         case "chat":
-            return groq
+            return gemini
             break;
         case "search":
             return groq

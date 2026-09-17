@@ -3,6 +3,7 @@ import { getMessages } from "../utils/getMessages.js"
 
 export const getMemory = async(conversationId)=>{
     const key = `messages-${conversationId}`
+    // await redis.del(key);
     const cached=await redis.get(key)
     if(cached){
         return JSON.parse(cached)
@@ -20,9 +21,9 @@ export const addMessage = async ({
     content
 }) => {
 
-    // if (!conversationId || !role || !content) {
-    //     throw new Error("Invalid message data")
-    // }
+    if (!conversationId || !role || !content) {
+        throw new Error("Invalid message data")
+    }
 
     const key = `messages-${conversationId}`
 
