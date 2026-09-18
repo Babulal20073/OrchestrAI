@@ -3,11 +3,11 @@ import React from 'react'
 import { useState } from 'react'
 import sendMessage from '../features/sendMessage.js'
 import { useDispatch, useSelector } from 'react-redux'
-import { addMessage, setMessages } from '../redux/messageSlice.js'
+import { addMessage, setArtifacts, setMessages } from '../redux/messageSlice.js'
 import { createConversation } from '../features/createConversation.js'
 import { addConversation, setConvTitle, setSelectedConversation } from '../redux/conversationSlice.js'
 import { updateConversation } from '../features/updateConversation.js'
-
+import { clearMessages } from '../redux/messageSlice.js'
 function ChatInput() {
     const [value,setValue] =useState("") 
     const [selectedAgent,setSelectedAgent]=useState("Auto")
@@ -17,6 +17,7 @@ function ChatInput() {
     const handleSendMessage= async ()=>{
         let conversation=selectedConversation
         if(!conversation){
+          dispatch(clearMessages())
           const conv=await createConversation()
           dispatch(setSelectedConversation(conv))
           dispatch(addConversation(conv))
@@ -37,6 +38,7 @@ function ChatInput() {
         setValue("")
         const data = await sendMessage(payload)
         dispatch(addMessage({role:"assistant",content:data?.answer,images:data?.images}))
+        dispatch(setArtifacts(data.artifacts || []))
         console.log(data)
     }
     const agents = [

@@ -25,7 +25,7 @@ export const agent = async (req, res) => {
             agent
         })
 
-        const response = result.aiResponse
+        const response = result?.aiResponse
 
         // Debug final response
         console.log("========== FINAL RESPONSE ==========")
@@ -63,7 +63,8 @@ export const agent = async (req, res) => {
             conversationId,
             role: "assistant",
             content: response,
-            images: result.images
+            images: result?.images,
+            artifacts:result?.artifacts
         }
 
         console.log(
@@ -86,7 +87,8 @@ export const agent = async (req, res) => {
 
         return res.status(200).json({
             answer: response,
-            images: result.images
+            images: result.images,
+            artifacts:result?.artifacts
         })
 
     } catch (err) {

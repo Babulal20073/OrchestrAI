@@ -7,6 +7,7 @@ import { addConversation, setConversations, setSelectedConversation } from "../r
 import { createConversation } from "../features/createConversation.js";
 import logOut from "../features/logOut.js";
 import { setUserdata } from "../redux/userSlice.js";
+import { clearMessages } from "../redux/messageSlice.js";
 function SideBar() {
   const [collapsed, setCollapsed] = useState(false);
   //state for user's image or avator
@@ -125,6 +126,8 @@ function SideBar() {
             border-none cursor-pointer"
             onClick={()=>{
               dispatch(setSelectedConversation(null))
+              dispatch(clearMessages())
+
             }}
           >
             <PenSquare size={14} />
