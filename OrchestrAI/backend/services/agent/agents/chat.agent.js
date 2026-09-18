@@ -8,11 +8,21 @@ export const chatAgent = async (state)=>{
     const llm = await getModel("chat")
     const history = await getMemory(state.conversationId)
     console.log(history)
-    const searchContext=state.searchResults?`
-    Web Search Results
-    ${state.searchResults}
-    Answer the user using only the above search results.`:""
+    const searchResults = state.searchResults?.results?.map(result => ({
+        title: result.title,
+        url: result.url,
+        content: result.content
+    })) || []
 
+    const searchContext = searchResults.length > 0
+        ? `
+    Web Search Results:
+
+    ${JSON.stringify(searchResults, null, 2)}
+
+    Answer the user using only the above search results.
+    `
+        : ""
     const systemPrompt = `
     You are contrexAI, an intelligent AI assistant
         ${JSON.stringify(state.searchResults, null, 2)}
