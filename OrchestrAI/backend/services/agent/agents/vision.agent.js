@@ -1,3 +1,60 @@
-export const visionAgent = async(params)=>{
-    
+import axios from "axios"
+import {getModel} from "../config/llmModels.js"
+import { uploadToS3 } from "../utils/uploadToS3.js"
+import { getFromS3 } from "../utils/getFromS3.js"
+export const visionAgent = async(state)=>{
+    try{
+    const llm=await getModel("image")
+    const res=await llm.invoke(`You are elite AI image prompt engineer.
+
+        Convert the user request into a highly detailed image generation prompt.
+
+        Requirements:
+
+        - Cinematic lighting
+        - Professional composition
+        - Ultra realism
+        - High detail
+        - Beautiful color palette
+        - Sharp focus
+        - 8K quality
+        - Photorealistic
+        - Depth of field
+        - Professional photography
+        - Stunning visuals
+
+        Return only the image prompt.
+
+        User Request:
+
+        ${state.prompt}`
+    )
+    const prompt = res.content.trim()
+    const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}`
+    const imageRes = await axios.get(imageUrl,{responseType:"arraybuffer"})
+    //now lets send our data to aws
+    const buffer = Buffer.from(imageRes.data)
+    const filename=`image-${Date.now()}.png`
+    await uploadToS3(filename,buffer,"image/png")
+    const downloadUrl=await getFromS3(filename,60*60*24)
+    return {
+    ...state,
+
+        aiResponse: `
+
+    📥 [Download Image](${downloadUrl})
+
+    ⏳ Link expires in 24 hours.
+    `,
+
+        images: [downloadUrl]
+    }
+    }catch(err){
+    console.error("VISION AGENT ERROR:", err.response?.data || err.message || err)
+    return {
+        ...state,
+        aiResponse:"Failed to generate image."
+    }
+}
+
 }

@@ -1,21 +1,25 @@
 import React, { useState } from 'react'
-import { Copy,Check, ExternalLink, X } from "lucide-react"
+import { Copy, Check, ExternalLink, X } from "lucide-react"
 import Markdown from "react-markdown"
 import remarkGfm from "remark-gfm"
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
+
 function MessageBubble({ role, content, images }) {
 
     const isUser = role === "user"
     const [lightBox, setLightBox] = useState(null)
-    const [copiedCode,setCopiedCode] = useState("")
-    const copyCode= async (code)=>{
+    const [copiedCode, setCopiedCode] = useState("")
+
+    const copyCode = async (code) => {
         await navigator.clipboard.writeText(code)
         setCopiedCode(code)
-        setTimeout(()=>{
+
+        setTimeout(() => {
             setCopiedCode("")
-        },2000)
+        }, 2000)
     }
+
     return (
         <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
 
@@ -53,6 +57,7 @@ function MessageBubble({ role, content, images }) {
                 <Markdown
                     remarkPlugins={[remarkGfm]}
                     components={{
+
                         h1: ({ children }) => (
                             <h1 className="text-2xl font-bold mb-3">
                                 {children}
@@ -82,86 +87,118 @@ function MessageBubble({ role, content, images }) {
                                 {children}
                             </ul>
                         ),
-                        ol:({ children }) => (
+
+                        ol: ({ children }) => (
                             <ol className="list-decimal pl-5 space-y-1 my-2">
                                 {children}
                             </ol>
                         ),
-                        table:({ children }) => (
+
+                        table: ({ children }) => (
                             <div className="overflow-x-auto my-4">
                                 <table className="min-w-full border border-white/10">
                                     {children}
                                 </table>
                             </div>
                         ),
-                        th:({ children }) => (
-                                <th className="border border-white/10 bg-white/5 px-3 py-2 text-left">
-                                    {children}
-                                </th>
+
+                        th: ({ children }) => (
+                            <th className="border border-white/10 bg-white/5 px-3 py-2 text-left">
+                                {children}
+                            </th>
                         ),
-                        td:({ children }) => (
-                                <td className="border border-white/10 px-3 py-2">
-                                    {children}
-                                </td>
+
+                        td: ({ children }) => (
+                            <td className="border border-white/10 px-3 py-2">
+                                {children}
+                            </td>
                         ),
-                        a:({ href,children }) => (
-                                <a 
+
+                        a: ({ href, children }) => (
+                            <a
                                 href={href}
                                 target="_blank"
                                 rel="noreferrer"
-                                className="text-indigo-400 underline inline-flex items-center gap-1">
-                                    {children}
-                                    <ExternalLink size={14}/>
-                                </a>
+                                className="text-indigo-400 underline inline-flex items-center gap-1"
+                            >
+                                {children}
+                                <ExternalLink size={14} />
+                            </a>
                         ),
-                        code:({className,children})=>{
-                            const value=String(children).trim();
-                            if(!className){
+
+                        img: ({ src, alt }) => (
+                            <img
+                                src={src}
+                                alt={alt || "Generated Image"}
+                                loading="lazy"
+                                onClick={() => setLightBox(src)}
+                                className="w-40 h-28 rounded-xl object-cover border border-white/10 cursor-zoom-in hover:opactiy"
+                            />
+                        ),
+
+                        code: ({ className, children }) => {
+
+                            const value = String(children).trim()
+
+                            if (!className) {
                                 return (
                                     <code className="px-1.5 py-0.5 rounded bg-white/10 text-indigo-200">
                                         {value}
                                     </code>
                                 )
                             }
-                            const language=className?.replace("language-","")
-                            
+
+                            const language = className?.replace("language-", "")
+
                             return (
                                 <div className="my-4 overflow-hidden rounded-xl border border-white/10 bg-[#111318]">
+
                                     <div className="flex items-center justify-between bg-[#1b1d24] border-b border-white/10 px-4 py-2">
+
                                         <span className="uppercase text-xs text-slate-400">
                                             {language}
                                         </span>
-                                        <button className="flex items-center gap-1 text-xs" onClick={()=>copyCode(value)}>
+
+                                        <button
+                                            className="flex items-center gap-1 text-xs"
+                                            onClick={() => copyCode(value)}
+                                        >
                                             {
-                                                copiedCode==value?
-                                                <>
-                                                <Check size={14}/>
-                                                copied
-                                                </>:<>
-                                                <Copy size={14}/>
-                                                Copy
-                                                </>
+                                                copiedCode === value
+                                                    ?
+                                                    <>
+                                                        <Check size={14} />
+                                                        copied
+                                                    </>
+                                                    :
+                                                    <>
+                                                        <Copy size={14} />
+                                                        Copy
+                                                    </>
                                             }
                                         </button>
+
                                     </div>
+
                                     <SyntaxHighlighter
-                                    language={language}
-                                    style={oneDark}
-                                    wrapLongLines
-                                    showLineNumbers
-                                    customStyle={{
-                                        margin:0,
-                                        padding:"16px",
-                                        background:"#0d1117",
-                                        fontSize:"13px",
-                                    }}
+                                        language={language}
+                                        style={oneDark}
+                                        wrapLongLines
+                                        showLineNumbers
+                                        customStyle={{
+                                            margin: 0,
+                                            padding: "16px",
+                                            background: "#0d1117",
+                                            fontSize: "13px",
+                                        }}
                                     >
                                         {value}
                                     </SyntaxHighlighter>
+
                                 </div>
                             )
                         }
-                        
+
                     }}
                 >
                     {content}

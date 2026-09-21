@@ -3,6 +3,7 @@ import { getModel } from "../config/llmModels.js"
 import { getMemory } from "../config/memory.js"
 
 export const chatAgent = async (state)=>{
+    try{
     console.log("CHAT STATE:", state)
     console.log("SEARCH RESULTS:", state.searchResults)     
     const llm = await getModel("chat")
@@ -68,5 +69,11 @@ export const chatAgent = async (state)=>{
     return {
         ...state,
         aiResponse:response.content
+    }
+    }catch(err){
+        return {
+            ...state,
+            aiResponse:"failed to generate response."
+        }
     }
 }
