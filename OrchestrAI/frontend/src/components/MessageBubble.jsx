@@ -59,13 +59,13 @@ function MessageBubble({ role, content, images }) {
                     components={{
 
                         h1: ({ children }) => (
-                            <h1 className="text-2xl font-bold mb-3">
+                            <h1 className="text-lg font-bold mb-3">
                                 {children}
                             </h1>
                         ),
 
                         h2: ({ children }) => (
-                            <h2 className="text-xl font-bold mt-4 mb-2">
+                            <h2 className="text-sm font-semibold mt-3 mb-2">
                                 {children}
                             </h2>
                         ),
@@ -119,10 +119,10 @@ function MessageBubble({ role, content, images }) {
                                 href={href}
                                 target="_blank"
                                 rel="noreferrer"
-                                className="text-indigo-400 underline inline-flex items-center gap-1"
+                                className="text-indigo-400 underline inline-flex items-center gap-1 text-xs"
                             >
                                 {children}
-                                <ExternalLink size={14} />
+                                <ExternalLink size={12} />
                             </a>
                         ),
 

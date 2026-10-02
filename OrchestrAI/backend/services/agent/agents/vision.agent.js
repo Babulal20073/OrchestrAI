@@ -36,15 +36,15 @@ export const visionAgent = async(state)=>{
     const buffer = Buffer.from(imageRes.data)
     const filename=`image-${Date.now()}.png`
     await uploadToS3(filename,buffer,"image/png")
-    const downloadUrl=await getFromS3(filename,60*60*24)
+    const downloadUrl=await getFromS3(filename,60*24)
     return {
     ...state,
 
         aiResponse: `
 
-    📥 [Download Image](${downloadUrl})
+📥 [Download Image](${downloadUrl})
 
-    ⏳ Link expires in 24 hours.
+⏳ Link expires in 24 hours.
     `,
 
         images: [downloadUrl]
